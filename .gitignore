@@ -1,0 +1,80 @@
+# OS
+.DS_Store
+
+# Common IDEs
+*.swp
+.idea/
+.buildpath
+.project
+.settings
+atlassian-ide-plugin.xml
+celerybeat-schedule
+celerybeat.pid
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir
+*.ipynb
+*.retry
+
+# Vagrant
+.vagrant/
+
+# Logs
+logs/*
+
+# Python
+*.pyc
+*.pyo
+env/
+
+# Build
+build/
+dist/
+.cache/
+# Translations
+*.mo
+
+# Public files (collected static, media, bower components)
+public/*
+celerybeat-schedule.db
+!public/media/.gitkeep
+!public/static/.gitkeep
+static/bower_components
+static/css/bundle.css
+static/assets
+staticfiles/
+
+# Default environment settings
+meetenjoy/.env
+
+# Developer's Makefile
+makefile-local
+
+# Coverage
+cover/
+.coverage
+coverage.xml
+
+# Nose tests
+nosetests.xml
+/junit/
+
+# Project stuff
+media/
+data/
+tmp/
+
+# DB
+apps/abc_backend/*.db
+
+
+# Node modules
+node_modules
+package-lock.json
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# Locale
+locale/*
