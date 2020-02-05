@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'django_extensions',
     'django_filters',
+    'graphene_django',
 
     'accounts',
     'aggregator',
@@ -110,7 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
@@ -119,9 +121,6 @@ REST_FRAMEWORK = {
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 STATIC_URL = "/static/"
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = '/media/'
 
 LANGUAGE_CODE = 'en-us'
 
@@ -136,12 +135,14 @@ USE_TZ = True
 AUTH_USER_MODEL = 'accounts.User'
 
 DOU_LOAD_CRONTAB = env.dict("DOU_LOAD_CRONTAB", default={"hour": 6, "minute": 1})
-DOU_MEETUP_CRONTAB = env.dict("DOU_MEETUP_CRONTAB", default={"hour": 6, "minute": 1})
-UPDATE_MEETING_STATUSES_CRONTAB = env.dict("UPDATE_MEETING_STATUSES_CRONTAB", default={"minute": 30})
 
-# REDIS_HOST = env.str("REDIS_HOST", default="redis")
-# REDIS_PORT = env.int("REDIS_PORT", default=6379)
+REDIS_HOST = env.str("REDIS_HOST", default="redis")
+REDIS_PORT = env.int("REDIS_PORT", default=6379)
 
-# CELERY_RESULT_BACKEND = CELERY_BROKER_URL = "redis://{host}:{port}/0".format(
-#     host=REDIS_HOST, port=REDIS_PORT
-# )
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL = "redis://{host}:{port}/0".format(
+    host=REDIS_HOST, port=REDIS_PORT
+)
+
+GRAPHENE = {
+    'SCHEMA': 'meetenjoy.schema.schema'
+}

@@ -1,4 +1,5 @@
 amqp==2.5.2
+aniso8601==7.0.0
 attrs==19.3.0
 backcall==0.1.0
 bcrypt==3.1.7
@@ -28,6 +29,10 @@ docker-compose==1.25.0
 dockerpty==0.4.1
 docopt==0.6.2
 drf-yasg==1.17.0
+graphene==2.1.8
+graphene-django==2.7.1
+graphql-core==2.2.1
+graphql-relay==2.0.1
 gunicorn==20.0.0
 idna==2.8
 importlib-metadata==0.23
@@ -51,6 +56,7 @@ paramiko==2.6.0
 parso==0.5.1
 pexpect==4.7.0
 pickleshare==0.7.5
+promise==2.3
 prompt-toolkit==2.0.9
 psycopg2-binary==2.8.3
 ptyprocess==0.6.0
@@ -68,8 +74,10 @@ requests-cache==0.5.2
 requests-oauthlib==1.2.0
 ruamel.yaml==0.16.5
 ruamel.yaml.clib==0.2.0
+Rx==1.6.1
 Serializer==0.2.1
 simplejson==3.16.0
+singledispatch==3.4.0.3
 six==1.12.0
 soupsieve==1.9.5
 sqlparse==0.3.0

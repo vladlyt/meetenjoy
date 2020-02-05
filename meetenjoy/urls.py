@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include, re_path
@@ -7,7 +6,7 @@ from django.urls import path, include, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-
+from graphene_django.views import GraphQLView
 from meetings.urls import urlpatterns as meeting_urlpatterns
 from accounts.urls import urlpatterns as accounts_urlpatterns
 
@@ -18,9 +17,9 @@ urlpatterns = [
     path(API_V1, include("rest_auth.urls")),
     path(API_V1, include(accounts_urlpatterns)),
     path(API_V1, include(meeting_urlpatterns)),
+    path("graphql", GraphQLView.as_view(graphiql=True)),
 ]
 urlpatterns += staticfiles_urlpatterns()
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.USE_SWAGGER:
     api_v4_schema_view = get_schema_view(

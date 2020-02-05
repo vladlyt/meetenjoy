@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from meetenjoy.enumeration import Enumeration
 
 User = get_user_model()
@@ -54,9 +55,6 @@ class Meeting(models.Model):
     status = models.PositiveSmallIntegerField(choices=MeetingStatus, default=MeetingStatus.DRAFT)
     location = models.TextField(null=True, blank=True)
 
-    main_photo = models.FileField(upload_to="meetings/", null=True, blank=True)
-    photo_url = models.CharField(max_length=400, null=True, blank=True)
-
     is_main = models.BooleanField(default=True)
     from_site = models.CharField(max_length=128, blank=True, default=True)
     from_url = models.CharField(max_length=256, null=True, blank=True)
@@ -67,9 +65,19 @@ class Meeting(models.Model):
     participants = models.ManyToManyField(User, related_name="following_meetings")
     objects = MeetingManager()
 
+    def __str__(self):
+        return self.title
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=64)
     meetings = models.ManyToManyField("meetings.Meeting", related_name="tags")
     users = models.ManyToManyField(User, related_name="tags")
 
+
+class Cache(models.Model):
+    url = models.URLField()
+    query_params = JSONField()
+    response_json = JSONField()
+    response_status = models.PositiveSmallIntegerField()
+    expires_after = models.DateTimeField()

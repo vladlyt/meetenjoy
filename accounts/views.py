@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.models import User
+from accounts.models import User, Rate
 from accounts.serializers import RegisterSerializer, UserSerializer, CreateRateSerializer, ReadUpdateRateSerializer
 from meetenjoy.core import IsNotAuthenticated, IsNotLector
 
@@ -57,7 +57,7 @@ class CreateRateLectorView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         visitor = request.user
-        lector = get_object_or_404(User, id=request.data.get("lector"))
+        lector = get_object_or_404(User, id=request.data.get())
         if not lector.is_lector:
             return Response({"message": "Given lector is not lector"},
                             status=status.HTTP_400_BAD_REQUEST)
@@ -67,8 +67,8 @@ class CreateRateLectorView(CreateAPIView):
         data = {
             "visitor": visitor.id,
             "lector": lector.id,
-            "rate": request.data.get("rate"),
-            "comment": request.data.get("comment"),
+            "rate": request.data.get(),
+            "comment": request.data.get(),
         }
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=data)

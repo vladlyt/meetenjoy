@@ -16,12 +16,9 @@ class MeetingSerializer(serializers.ModelSerializer):
             "small_description",
             "created_at",
             "date_string",
-            "main_photo",
-            "photo_url",
             "published_at",
             "start_at",
             "duration",
-            "status",
             "location",
             "is_main",
             "from_site",
@@ -51,8 +48,6 @@ class ReadOnlyMeetingSerializer(serializers.ModelSerializer):
             "published_at",
             "start_at",
             "duration",
-            "main_photo",
-            "photo_url",
             "status",
             "location",
             "is_main",
@@ -134,3 +129,17 @@ class TagSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class SmallMeetingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Meeting
+        fields = [
+            "id",
+            "title",
+            "description",
+            "small_description",
+            "is_main",
+            "from_site",
+            "from_url",
+            "related_id",
+            "date_string",
+        ]
