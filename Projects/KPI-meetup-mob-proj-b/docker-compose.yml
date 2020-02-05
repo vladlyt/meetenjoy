@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - FIRST_SERVICE_URL=http://service-first:8001
+      - SECOND_SERVICE_URL=http://service-second:8002
+      - THIRD_SERVICE_URL=http://service-third:8003
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+  service-first:
+    build: ./service_first
+    command: python ./service_first/manage.py runserver 0.0.0.0:8001
+    volumes:
+      - .:/code
+    ports:
+      - "8001:8001"
+  service-second:
+    build: ./service_second
+    command: python ./service_second/manage.py runserver 0.0.0.0:8002
+    volumes:
+      - .:/code
+    ports:
+      - "8002:8002"
+  service-third:
+    build: ./service_third
+    command: python ./service_third/manage.py runserver 0.0.0.0:8003
+    volumes:
+      - .:/code
+    ports:
+      - "8003:8003"
+  redis:
+    image: 'redis:5.0.7'
+    command: redis-server
+    volumes:
+      - 'redis:/data'
+    ports:
+      - '6379:6379'
+  celery-worker:
+    build: .
+    command: celery worker -l info -A meetenjoy
+    volumes:
+      - '.:/code'
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+  celery-beat:
+    build: .
+    command: celery beat -l info -A meetenjoy
+    volumes:
+      - '.:/code'
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+  redis:
